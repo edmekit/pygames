@@ -11,12 +11,13 @@ pygame.display.set_caption("First Game")
 clock = pygame.time.Clock()
 
 img = pygame.image.load("ed.png")
+resize = pygame.transform.scale(img, (100, 100))
 def draw(x, y):
     screen.fill(white)
-    screen.blit(img, (x, y))
+    screen.blit(resize, (x, y))
                 
-x = (width * .45)
-y = (height * .5)
+x = (width * .43)
+y = (height * .8)
 
 draw(x, y)
 
