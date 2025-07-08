@@ -17,6 +17,7 @@ class enemy(pygame.sprite.Sprite):
         self.rect.y += self.velocity
 
 disp = pygame.display.set_mode((width, height))
+title = pygame.display.set_caption("Dodge!")
 img = pygame.image.load("ed.png").convert_alpha()
 img = pygame.transform.smoothscale(img, (100, 100))
 pos = img.get_rect(midbottom = (400, 600))
