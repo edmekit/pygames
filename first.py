@@ -8,7 +8,7 @@ white = (255, 255, 255)
 class enemy(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, me_pos, speed=5):
         super().__init__()
-        self.image = pygame.image.load("ball.png").convert_alpha()
+        self.image = pygame.image.load("ball.png").convert()
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect(center=spawn_pos)
 
@@ -24,7 +24,7 @@ class enemy(pygame.sprite.Sprite):
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("First Game")
 clock = pygame.time.Clock()
-img = pygame.image.load("ed.png").convert_alpha()
+img = pygame.image.load("ed.png").convert()
 resize = pygame.transform.scale(img, (100, 100))
 pos = resize.get_rect(center = (400, 300))
 
@@ -72,6 +72,9 @@ while not crash:
         if spi.rect.colliderect(pos):
             print("crash")
             crash = True
+    
+    if now == 30000:
+        speed = 10
     
     screen.fill(white)
     screen.blit(resize, pos)
