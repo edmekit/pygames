@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, time
 pygame.init()
 width = 800
 height = 600
@@ -26,61 +26,76 @@ pygame.display.set_caption("First Game")
 clock = pygame.time.Clock()
 img = pygame.image.load("ed.png").convert()
 resize = pygame.transform.scale(img, (100, 100))
-pos = resize.get_rect(center = (400, 300))
 
-crash = False
-enemy_spawn_cooldown = 800     
-last_spawn_time = 0
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
 
-enemies = pygame.sprite.Group()
-
-while not crash:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            crash = True
-    
-    now = pygame.time.get_ticks()
-
-    if now - last_spawn_time > enemy_spawn_cooldown:
-        last_spawn_time = now
-
-        edge = random.randint(0, 3)
-        if edge == 0:   
-            spawn = pygame.math.Vector2(random.randrange(width), -30)
-        elif edge == 1: 
-            spawn = pygame.math.Vector2(width + 30, random.randrange(height))
-        elif edge == 2: 
-            spawn = pygame.math.Vector2(random.randrange(width), height + 30)
-        else:           
-            spawn = pygame.math.Vector2(-30, random.randrange(height))
-
-        target = pygame.math.Vector2(pos.center)  
-        enemies.add(enemy(spawn, target, speed=4))
-    
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        pos.x -= 5
-    if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        pos.x += 5
-    if keys[pygame.K_UP] or keys[pygame.K_w]:
-        pos.y -= 5
-    if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        pos.y += 5
-
-    enemies.update()
-    for spi in enemies:
-        if spi.rect.colliderect(pos):
-            print("crash")
-            crash = True
-    
-    if now == 30000:
-        speed = 10
-    
+def fail():
     screen.fill(white)
-    screen.blit(resize, pos)
-    enemies.draw(screen)
+    font = pygame.font.Font('freesansbold.ttf', 50)
+    surf, rect = text_objects("Oppsie, you died", font)
+    rect.center = (width/2, height/2)
+    screen.blit(surf, rect)
     pygame.display.update()
-    clock.tick(60)
+    time.sleep(2)
 
+    game_loop()
+
+
+def game_loop():
+    pos = resize.get_rect(center = (400, 300))
+    crash = False
+    enemy_spawn_cooldown = 800     
+    last_spawn_time = 0
+    enemies = pygame.sprite.Group()
+
+    while not crash:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        now = pygame.time.get_ticks()
+
+        if now - last_spawn_time > enemy_spawn_cooldown:
+            last_spawn_time = now
+
+            edge = random.randint(0, 3)
+            if edge == 0:   
+                spawn = pygame.math.Vector2(random.randrange(width), -30)
+            elif edge == 1: 
+                spawn = pygame.math.Vector2(width + 30, random.randrange(height))
+            elif edge == 2: 
+                spawn = pygame.math.Vector2(random.randrange(width), height + 30)
+            else:           
+                spawn = pygame.math.Vector2(-30, random.randrange(height))
+
+            target = pygame.math.Vector2(pos.center)  
+            enemies.add(enemy(spawn, target, speed=4))
+        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            pos.x -= 5
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            pos.x += 5
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            pos.y -= 5
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            pos.y += 5
+
+        enemies.update()
+        for spi in enemies:
+            if spi.rect.colliderect(pos):
+                fail()
+        
+        screen.fill(white)
+        screen.blit(resize, pos)
+        enemies.draw(screen)
+        pygame.display.update()
+        clock.tick(60)
+
+
+game_loop()
 pygame.quit()
 quit()
