@@ -4,6 +4,9 @@ width = 800
 height = 600
 black = (0, 0, 0)
 white = (255, 255, 255)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
 
 class enemy(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, me_pos, speed=5):
@@ -31,10 +34,10 @@ def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-def fail():
+def fail(text):
     screen.fill(white)
     font = pygame.font.Font('freesansbold.ttf', 50)
-    surf, rect = text_objects("Oppsie, you died", font)
+    surf, rect = text_objects(text, font)
     rect.center = (width/2, height/2)
     screen.blit(surf, rect)
     pygame.display.update()
@@ -87,7 +90,7 @@ def game_loop():
         enemies.update()
         for spi in enemies:
             if spi.rect.colliderect(pos):
-                fail()
+                fail("Oopsie, you died!")
         
         screen.fill(white)
         screen.blit(resize, pos)
