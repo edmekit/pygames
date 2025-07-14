@@ -25,7 +25,7 @@ class enemy(pygame.sprite.Sprite):
         self.rect.centery += self.velocity.y
 
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("First Game")
+pygame.display.set_caption("Comin' straight at you!")
 clock = pygame.time.Clock()
 img = pygame.image.load("ed.png").convert()
 resize = pygame.transform.scale(img, (100, 100))
@@ -36,7 +36,7 @@ def text_objects(text, font):
 
 def fail(text):
     screen.fill(white)
-    font = pygame.font.Font('freesansbold.ttf', 50)
+    font = pygame.font.Font('freesansbold.ttf', 30)
     surf, rect = text_objects(text, font)
     rect.center = (width/2, height/2)
     screen.blit(surf, rect)
@@ -52,6 +52,7 @@ def game_loop():
     enemy_spawn_cooldown = 800     
     last_spawn_time = 0
     enemies = pygame.sprite.Group()
+    start = pygame.time.get_ticks()
 
     while not crash:
         for event in pygame.event.get():
@@ -87,10 +88,13 @@ def game_loop():
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             pos.y += 5
 
+        ms = pygame.time.get_ticks() - start
+        sec = ms // 1000
+
         enemies.update()
         for spi in enemies:
             if spi.rect.colliderect(pos):
-                fail("Oopsie, you died!")
+                fail(f"Oopsie, you died!. You survived for {sec} seconds.")
         
         screen.fill(white)
         screen.blit(resize, pos)
