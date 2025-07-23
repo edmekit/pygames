@@ -57,9 +57,10 @@ def game_loop():
     mypos = img.get_rect(midbottom = (400, 600))
     spawncd = 500
     last = 0
-    start = pygame.time.get_ticks()
     bullets = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
+    score = 0
+    tex = pygame.font.Font('freesansbold.ttf', 20)
     
     while safe:
         for event in pygame.event.get():
@@ -88,6 +89,8 @@ def game_loop():
 
         screen.fill(white)
         screen.blit(img, mypos)
+        score_surf = tex.render(f"Score: {score}", True, black)
+        screen.blit(score_surf, (10, 10))
 
         for b in bullets:
             if b.rect.y > height:
@@ -95,9 +98,10 @@ def game_loop():
             
             for e in enemies:
                 if e.rect.colliderect(mypos):
-                    disp_mess("Game Over")
+                    disp_mess(f"Game Over. \n Score: {score}")
                     safe = False
                 if b.rect.colliderect(e.rect):
+                    score += 1
                     enemies.remove(e)
                     bullets.remove(b)
                     break
