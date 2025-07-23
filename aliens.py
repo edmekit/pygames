@@ -13,7 +13,7 @@ img = pygame.transform.smoothscale(img, (100, 100))
 clock = pygame.time.Clock()
 
 class bullet(pygame.sprite.Sprite):
-    def __init__(self, spawn_pos, speed=5):
+    def __init__(self, spawn_pos, speed=3):
         super().__init__()
         self.image = pygame.image.load("ball.png").convert_alpha()
         self.image = pygame.transform.smoothscale(self.image, (50, 50))
@@ -49,6 +49,8 @@ def disp_mess(text):
 
     time.sleep(2)
 
+    game_loop()
+
 
 def game_loop():
     safe = True
@@ -71,7 +73,7 @@ def game_loop():
             last = current
             spawn = pygame.math.Vector2(mypos.center)
             enemyspawn = pygame.math.Vector2(random.randrange(width), -30)
-            enemies.add(enemy(enemyspawn,speed=5))
+            enemies.add(enemy(enemyspawn,speed=3))
             bullets.add(bullet(spawn,speed=5))
         
         keys = pygame.key.get_pressed()
@@ -86,6 +88,20 @@ def game_loop():
 
         screen.fill(white)
         screen.blit(img, mypos)
+
+        for b in bullets:
+            if b.rect.y > height:
+                bullets.remove(b)
+            
+            for e in enemies:
+                if e.rect.colliderect(mypos):
+                    disp_mess("Game Over")
+                    safe = False
+                if b.rect.colliderect(e.rect):
+                    enemies.remove(e)
+                    bullets.remove(b)
+                    break
+        
         enemies.update()  
         bullets.update()
         enemies.draw(screen)
