@@ -23,6 +23,17 @@ class bullet(pygame.sprite.Sprite):
     def update(self):
         self.rect.y -= self.velocity
 
+class enemy(pygame.sprite.Sprite):
+    def __init__(self, spawn_pos, speed=5):
+        super().__init__()
+        self.image = pygame.image.load("ed.png").convert_alpha()
+        self.image = pygame.transform.smoothscale(self.image, (50,50))
+        self.rect = self.image.get_rect(center=spawn_pos)
+        self.velocity = speed
+    
+    def update(self):
+        self.rect.y += self.velocity
+
 def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
@@ -46,6 +57,7 @@ def game_loop():
     last = 0
     start = pygame.time.get_ticks()
     bullets = pygame.sprite.Group()
+    enemies = pygame.sprite.Group()
     
     while safe:
         for event in pygame.event.get():
@@ -58,6 +70,8 @@ def game_loop():
         if current - last > spawncd:
             last = current
             spawn = pygame.math.Vector2(mypos.center)
+            enemyspawn = pygame.math.Vector2(random.randrange(width), -30)
+            enemies.add(enemy(enemyspawn,speed=5))
             bullets.add(bullet(spawn,speed=5))
         
         keys = pygame.key.get_pressed()
@@ -72,7 +86,9 @@ def game_loop():
 
         screen.fill(white)
         screen.blit(img, mypos)
+        enemies.update()  
         bullets.update()
+        enemies.draw(screen)
         bullets.draw(screen)
         pygame.display.update()
         clock.tick(60)
