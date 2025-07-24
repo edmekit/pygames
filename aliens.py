@@ -43,26 +43,51 @@ def text_objects(text, font):
 
 def disp_mess(text):
     font = pygame.font.Font('freesansbold.ttf', 40)
-    surf, rect = text_objects(text, font)
-    rect.center = (width/2, height/2)
-    screen.fill(white)
-    screen.blit(surf, rect)
-    pygame.display.update()
+    btn_font = pygame.font.Font('freesansbold.ttf', 20)
+    outside = True
+    yes_rect = pygame.Rect(width/2 - 200, height/2 + 50, 150, 50)
+    no_rect = pygame.Rect(width/2 + 70, height/2 + 50, 150, 50)
+    while outside:
+        surf, rect = text_objects(text, font)
+        rect.center = (width/2, height/2 - 50)
+        screen.fill(white)
+        pygame.draw.rect(screen, red, no_rect)
+        pygame.draw.rect(screen, green, yes_rect)
+        no_txt = btn_font.render("Exit", True, black)
+        yes_txt = btn_font.render("Start Game", True, black)
+        txt_rect = yes_txt.get_rect(center = yes_rect.center)
+        no_txt_rect = no_txt.get_rect(center = no_rect.center)
+        screen.blit(no_txt, no_txt_rect)
+        screen.blit(yes_txt, txt_rect)
+        screen.blit(surf, rect)
+        pygame.display.update()
 
-    time.sleep(2)
-
-    game_loop()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if yes_rect.collidepoint(event.pos):
+                    game_loop()
+                if no_rect.collidepoint(event.pos):
+                    pygame.quit()
+                    quit()
 
 def start():
     running = True
     font  = pygame.font.Font('freesansbold.ttf', 20)
-    button_rect = pygame.Rect(width/2 - 200, height/2 - 50, 200, 100)
+    yes_rect = pygame.Rect(width/2 - 250, height/2 - 50, 200, 100)
+    no_rect = pygame.Rect(width/2 + 50, height/2 - 50, 200, 100)
     while running:
         screen.fill(white)
-        pygame.draw.rect(screen, green, button_rect)
-        button_txt = font.render("Start Game", True, black)
-        txt_rect = button_txt.get_rect(center = button_rect.center)
-        screen.blit(button_txt, txt_rect)
+        pygame.draw.rect(screen, red, no_rect)
+        pygame.draw.rect(screen, green, yes_rect)
+        no_txt = font.render("Exit", True, black)
+        yes_txt = font.render("Start Game", True, black)
+        txt_rect = yes_txt.get_rect(center = yes_rect.center)
+        no_txt_rect = no_txt.get_rect(center = no_rect.center)
+        screen.blit(no_txt, no_txt_rect)
+        screen.blit(yes_txt, txt_rect)
 
         pygame.display.update()
 
@@ -71,8 +96,11 @@ def start():
                 pygame.quit()
                 quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if button_rect.collidepoint(event.pos):
+                if yes_rect.collidepoint(event.pos):
                     running = False
+                if no_rect.collidepoint(event.pos):
+                    pygame.quit()
+                    quit()
 
 
 def game_loop():
