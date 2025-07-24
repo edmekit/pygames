@@ -54,7 +54,7 @@ def disp_mess(text):
         pygame.draw.rect(screen, red, no_rect)
         pygame.draw.rect(screen, green, yes_rect)
         no_txt = btn_font.render("Exit", True, black)
-        yes_txt = btn_font.render("Start Game", True, black)
+        yes_txt = btn_font.render("Start Again", True, black)
         txt_rect = yes_txt.get_rect(center = yes_rect.center)
         no_txt_rect = no_txt.get_rect(center = no_rect.center)
         screen.blit(no_txt, no_txt_rect)
