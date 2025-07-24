@@ -5,6 +5,8 @@ width = 800
 height = 600
 white = (255, 255, 255)
 black = (0,0,0)
+green = (0, 255, 0)
+red = (255, 0 , 0)
 
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Aliens Game")
@@ -50,6 +52,27 @@ def disp_mess(text):
     time.sleep(2)
 
     game_loop()
+
+def start():
+    running = True
+    font  = pygame.font.Font('freesansbold.ttf', 20)
+    button_rect = pygame.Rect(width/2 - 200, height/2 - 50, 200, 100)
+    while running:
+        screen.fill(white)
+        pygame.draw.rect(screen, green, button_rect)
+        button_txt = font.render("Start Game", True, black)
+        txt_rect = button_txt.get_rect(center = button_rect.center)
+        screen.blit(button_txt, txt_rect)
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button_rect.collidepoint(event.pos):
+                    running = False
 
 
 def game_loop():
@@ -123,6 +146,7 @@ def game_loop():
         pygame.display.update()
         clock.tick(60)
 
+start()
 game_loop()
 pygame.quit()
 quit()
