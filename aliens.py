@@ -113,7 +113,7 @@ def game_loop():
                     enemies.remove(e)
         
         if errors == 10:
-            disp_mess(f"You let the aliens escape. \n Score: {score}")
+            disp_mess(f"Aliens invaded Earth. \n Score: {score}")
             safe = False
                     
         enemies.update()  
