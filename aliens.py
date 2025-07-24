@@ -40,7 +40,7 @@ def text_objects(text, font):
 
 
 def disp_mess(text):
-    font = pygame.font.Font('freesansbold.ttf', 50)
+    font = pygame.font.Font('freesansbold.ttf', 40)
     surf, rect = text_objects(text, font)
     rect.center = (width/2, height/2)
     screen.fill(white)
@@ -59,8 +59,10 @@ def game_loop():
     last = 0
     bullets = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
+    errors = 0
     score = 0
     tex = pygame.font.Font('freesansbold.ttf', 20)
+    
     
     while safe:
         for event in pygame.event.get():
@@ -79,23 +81,24 @@ def game_loop():
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            mypos.x -= 5
+            mypos.x -= 10
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            mypos.x += 5
+            mypos.x += 10
         if keys[pygame.K_UP] or keys[pygame.K_w]:
-            mypos.y -= 5
+            mypos.y -= 10
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            mypos.y += 5
+            mypos.y += 10
 
         screen.fill(white)
         screen.blit(img, mypos)
         score_surf = tex.render(f"Score: {score}", True, black)
+        error_surf = tex.render(f"Errors: {errors}", True, black)
+        screen.blit(error_surf, (700, 10))
         screen.blit(score_surf, (10, 10))
 
         for b in bullets:
-            if b.rect.y > height:
+            if b.rect.y < 0:
                 bullets.remove(b)
-            
             for e in enemies:
                 if e.rect.colliderect(mypos):
                     disp_mess(f"Game Over. \n Score: {score}")
@@ -105,7 +108,14 @@ def game_loop():
                     enemies.remove(e)
                     bullets.remove(b)
                     break
+                if e.rect.y > height:
+                    errors += 1
+                    enemies.remove(e)
         
+        if errors == 10:
+            disp_mess(f"You let the aliens escape. \n Score: {score}")
+            safe = False
+                    
         enemies.update()  
         bullets.update()
         enemies.draw(screen)
