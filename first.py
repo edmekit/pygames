@@ -11,8 +11,8 @@ blue = (0, 0, 255)
 class enemy(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, me_pos, speed=5):
         super().__init__()
-        self.image = pygame.image.load("ball.png").convert()
-        self.image = pygame.transform.scale(self.image, (50, 50))
+        self.image = pygame.image.load("picts/heart eyes.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect(center=spawn_pos)
 
         direction = pygame.math.Vector2(me_pos) - spawn_pos
