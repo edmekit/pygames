@@ -17,8 +17,8 @@ ed1 = pygame.image.load("ed.png").convert_alpha()
 ed2 = pygame.image.load("ed.png").convert_alpha()
 ed1 = pygame.transform.smoothscale(ed1, (100, 100))
 ed2 = pygame.transform.smoothscale(ed2, (100, 100))
-ball = pygame.image.load("ball.png").convert_alpha()
-ball = pygame.transform.smoothscale(ball, (50, 50))
+ball = pygame.image.load("picts/pingpong.png").convert_alpha()
+ball = pygame.transform.smoothscale(ball, (75, 75))
 
 score = 0
 

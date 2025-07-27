@@ -10,8 +10,8 @@ red = (255, 0 , 0)
 
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Aliens Game")
-img = pygame.image.load("ed.png").convert_alpha()
-img = pygame.transform.smoothscale(img, (100, 100))
+img = pygame.image.load("picts/spaceship.png").convert_alpha()
+img = pygame.transform.smoothscale(img, (150, 150))
 clock = pygame.time.Clock()
 
 class bullet(pygame.sprite.Sprite):
