@@ -8,7 +8,7 @@ white = (255, 255, 255)
 class enemy(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, speed=5):
         super().__init__()
-        self.image = pygame.image.load("ball.png").convert_alpha()
+        self.image = pygame.image.load("picts/pingpong.png").convert_alpha()
         self.image = pygame.transform.smoothscale(self.image, (100, 100))
         self.rect = self.image.get_rect(center=spawn_pos)
         self.velocity = speed
@@ -18,7 +18,7 @@ class enemy(pygame.sprite.Sprite):
 
 disp = pygame.display.set_mode((width, height))
 title = pygame.display.set_caption("Dodge!")
-img = pygame.image.load("ed.png").convert_alpha()
+img = pygame.image.load("picts/car.png").convert_alpha()
 img = pygame.transform.smoothscale(img, (100, 100))
 clock = pygame.time.Clock()
 
