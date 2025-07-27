@@ -17,8 +17,8 @@ clock = pygame.time.Clock()
 class bullet(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, speed=3):
         super().__init__()
-        self.image = pygame.image.load("ball.png").convert_alpha()
-        self.image = pygame.transform.smoothscale(self.image, (50, 50))
+        self.image = pygame.image.load("picts/bullet.png").convert_alpha()
+        self.image = pygame.transform.smoothscale(self.image, (75, 75))
         self.rect = self.image.get_rect(center=spawn_pos)
         self.velocity = speed
 
@@ -28,8 +28,8 @@ class bullet(pygame.sprite.Sprite):
 class enemy(pygame.sprite.Sprite):
     def __init__(self, spawn_pos, speed=5):
         super().__init__()
-        self.image = pygame.image.load("ed.png").convert_alpha()
-        self.image = pygame.transform.smoothscale(self.image, (50,50))
+        self.image = pygame.image.load("picts/alien.png").convert_alpha()
+        self.image = pygame.transform.smoothscale(self.image, (100,100))
         self.rect = self.image.get_rect(center=spawn_pos)
         self.velocity = speed
     
